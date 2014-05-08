@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" href="themes/my-color-theme.min.css" />
+        <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+        <script type="text/javascript" src="lib/jquery-1.11.0.js"> </script>
+        <link rel="stylesheet" type="text/css" href="lib/jquery/jquery.mobile-1.4.2.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script type="text/javascript" src="lib/jquery/jquery.mobile-1.4.2.js"> </script>
+        <script type="text/javascript" src="lib/exercisetracker.js"> </script>
+        <title>Hello World</title>
+ <script type="text/javascript">
+ $(document).bind("mobileinit", function(){
+  $.mobile.loadingMessage = false;
+});
+</script>
+</head>
+<body>
+<div data-role="page" id="hjem-saker"  data-theme="b">
+ 
+  <div data-role="header">
+    <p style="text-align:center"> <img src="img/logo.png"/> </p>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#hjem" data-transition="none" data-icon="home">Nytt</a></li>
+        <li><a href="#lokalt" data-transition="none" data-icon="grid">Utviklernytt</a></li>
+        <li><a href="#tutorials" data-transition="none" data-icon="star">Karriere</a></li>
+      </ul>
+    </div>
+    
+     <div data-role="content">
+ 
+ 
+<div class="choice_list">
+ 
+<ul data-role="listview" data-inset="true" >
+ 
+<li><a href="#artikkel-1" data-transition="slidedown"> <img src="img/slider-img.png" height="60" width="90"/> <h3>Lær deg basics!</h3></a></li>
+ 
+<li><a href="choose_town.HTML" data-transition="slidedown"> <img src="img/grid-pic1.png" height="60" width="90"/> <h3> De 5 beste utviklerverktøyene </h3></a></li>
+ 
+<li><a href="choose_town.HTML" data-transition="slidedown"> <img src="img/grid-pic2.png" height="60" width="90"/> <h3> Intervju med GitHub-grunnlegger </h3></a></li>
+ 
+<li><a href="choose_town.HTML" data-transition="slidedown"> <img src="img/grid-pic3.png" height="60" width="90"/> <h3> Python vs Ruby </h3></a></li>
+ 
+<li><a href="choose_town.HTML" data-transition="slidedown"> <img src="img/grid-pic4.png" height="60" width="90"/> <h3> Programming motherfucker</h3></a></li>
+ 
+<li><a href="choose_town.HTML" data-transition="slidedown"> <img src="img/grid-pic5.png" height="60" width="90"/> <h3> Karriere-planlegging </h3></a></li>
+ 
+</ul>
+ 
+</div>
+ 
+</div>
+  
+  </div>
+</div>
+  
+
+<div data-role="page" id="lokalt"  data-theme="b">
+ 
+  <div data-role="header">
+    <h1>Lokalt</h1>
+     
+  
+  </div>
+</div>
+ 
+
+<div data-role="page" id="tutorials"  data-theme="b">
+ 
+    <div data-role="header">
+        <h1>Tutorials</h1>
+         
+    </div>
+  </div>
+ 
+ 
+
+
+
+<div data-role="page" id="artikkel-1"  data-theme="b">
+ 
+  <div data-role="header">
+
+    <h1>Programmering</h1>
+    </div>
+    <div data-role="content">
+      <img src="img/artikkel-1-bilde.png" height="200" width="335"/>
+    <p> En ny ideell organisasjon i USA, Code.org, agiterer for at flere skal lære seg å programmere.
+
+ På sin forside – og på Youtube – har de lagt ut en video på ni og et halvt minutter, med tittelen What Most Schools Don’t Teach. Gjennomgangstemaet er: «Everybody in this country should learn how to program a computer».
+
+ IT-kjendiser som Mark Zuckerberg og Bill Gates stiller opp for å forklare at programmering ikke er spesielt vanskelig, og at det er et stort underskudd på programmerere. Kan du programmere, er du praktisk talt garantert jobb.
+
+ Gjennomgangsfiguren er ei jente som stiller spørsmål: Hvorfor lærer vi ikke dette på skolen? Hvorfor vil unge bli alt annet enn dataeksperter, når det er så stort behov for folk IT-kunnskaper?
+
+ Det er ikke bare IT-kjendiser som svarer. Musiker will.i.am (The Black Eyes Peas) undrer seg over hvordan all avhenger av teknologi og ingen kan skrive kode: «Fra åtte års alderen bør barn lære å skrive kode.»
+
+ NBA-stjerne Chris Bosh maner til å lære seg «framtidens språk». 
+
+ Det dreier seg ikke bare om jobb og penger. Koding framstilles som en mulighet til å skape, til å lage kunst og til å uttrykke seg selv.
+
+ Jack Dorsey, mannen bak Twitter og gründer av Square, sammenlikner «stor programmering» med «stor kunst».
+</p>
+<img src="img/codeacademy.png" height="250" width="335"/>
+<p> Bildet over er hentet fra et Codecademy-kurs. Gjengen på Codecademy tilbyr interaktive kurs i språk som Javascript, HTML, CSS, Python, Ruby osv </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+</p> Ved å bruke gamification-triks som badges, streaks, og annet motiverer de deg til å fullføre og lære på en gøy måte. </p>
+
+     
+  
+  </div>
+</div>
+<div data-role="page" id="funshit"  data-theme="b">
+ 
+  <div data-role="header">
+    <h1>Fun shit</h1>
+     
+  
+  </div>
+</div>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, {enableHighAccuracy:true});
+    }
+
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+                            'Longitude: '          + position.coords.longitude             + '<br />' +
+                            'Altitude: '           + position.coords.altitude              + '<br />' +
+                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+                            'Heading: '            + position.coords.heading               + '<br />' +
+                            'Speed: '              + position.coords.speed                 + '<br />' +
+                            'Timestamp: '          + position.timestamp                    + '<br />';
+
+    }
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+    </script>
+  
+
+</body>
+</html>

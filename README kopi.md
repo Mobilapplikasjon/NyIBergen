@@ -1,4 +1,0 @@
-NyIBergen
-=========
-
-Min mappe
