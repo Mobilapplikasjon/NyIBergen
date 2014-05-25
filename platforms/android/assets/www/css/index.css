@@ -21,7 +21,8 @@
 }
 
 body {
-
+    background:  transparent url(../img/bakgrunnsbilde-app.png) no-repeat center center;
+    background-size: cover;
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
@@ -151,7 +152,7 @@ top: 23%;
     top: 0;
 }
 a {
-    color: #0060B6;
+    color: #ffffff;
     text-decoration: none;
 }
 p.lowercase {text-transform:none;}
