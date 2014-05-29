@@ -43,7 +43,43 @@
 		left: 0;
 		right: 0;
 		top: 0;
+	}	
+	.cover {
+		background-color: #FFFFFF;
+		background-image: url('img/grid-pic4.png');
+		border: 8px solid;
+		border-color: #FFFFFF;
+		border-radius: 5px;
+		padding: 5px;
+		width: 300px;
+		height: 180px;
+		margin: 30px auto 15px;
 	}
+	.title {
+		font-family: Verdana, Geneva, sans-serif;
+		font-size: 24px;
+		text-align: center;
+		width: 200px;
+		margin: auto;
+	}
+	.controls {
+		background-color: #FFFF00;
+		width: 160px;
+		height: 160px;
+		border: 0px;
+		border-radius: 100px;
+		margin: 30px auto;
+	}
+	.controls:active {
+		background-color: #FFFFFF;
+	}
+	.tracker {
+		background-color: #000000;
+		height: 15px;
+		width: 300px;
+		margin: auto;
+	}
+
 }
 </style>
 
@@ -79,27 +115,41 @@
 		<div id="googleMap"></div>
 		<div id="info"></div>
 		<div id="distance"></div>
-        
-		<audio id="audiofile1">
-			<source src="mp3.mp3" type="audio/mp3"> <!-- .get(0) -->
-			<source src="ogg.ogg" type="audio/ogg"> <!-- .get(1) -->
-			<!--Your browser does not support the audio element.-->
-		</audio>
     
 	   	<a href="#" class="startgps">Start geolocation og se etter posisjon</a>
     	<a href="#" class="startaudio">Trykk her for å gjøre det mulig å starte lyd senere automatisk</a>
 	</div>
 </div>
+
+<div data-role="page" id="audio_page" data-theme="b">
+	<div class="containerbox">
+	    <div class="cover"></div>
+    	<div class="title">TEST</div> 	
+        <div class="controls"></div>
+        <div class="tracker"></div>
+        <div class="volume"></div>
+    </div>
+    
+    <audio id="audiofile">
+		<source src="audio/mp3.mp3" type="audio/mp3" name="Jimmy Eat World" img="img/grid-pic5.png"> <!-- .get(0) -->
+		<source src="audio/ogg.ogg" type="audio/ogg" name="" img=""> <!-- .get(1) -->
+		<!--Your browser does not support the audio element.-->
+	</audio>
+</div>
+
+<!-------------------------------------------------------------------------->
     
 <script>    
-<!----------------------------------------------------------------------
-
 var marker;
 var infoWindow;
+var descWindow;
 var watchId;
-
 var map;
-var walker;
+var circle;
+
+var audioFile;
+var tracker = $('.tracker');
+var volume = $('.volume');
 
 $(".mainimg").click(function() {
 	initCoords();
@@ -132,18 +182,14 @@ function displayPosition(position) {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}; 
 	map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	google.maps.event.trigger(map, 'resize');
 	
-	walker = new google.maps.Marker({
-		position: pos,
-	}),
-	walker.setMap(map);
-	
-	drawCircle(60.395102, 5.325355); // [60.395102, 5.325355, "Bryggen"]/* BRYGGEN */, 
-	drawCircle(60.396247, 5.328263); // [60.396247, 5.328263, "Fløyen"]/* FLØYEN */, 
-	drawCircle(60.395198, 5.326338); // [60.395198, 5.326338, "Dyvekegangen"]/*DYVEKEGANGEN*/, 
-	drawCircle(60.392495, 5.321006); // [60.392495, 5.321006, "Gestapohuset"]/*GESTAPOHUSET*/, 
-	drawCircle(60.399500, 5.318632); // [60.399500, 5.318632, "Bergenhus Festning"]/*BERGENHUS FESTNING*/ 
-	drawCircle(60.392355, 5.326586); // [60.392355, 5.326586, "Gamle Brannstasjon"]/*GAMLE BRANNSTASJON*/
+	drawCircle(60.395102, 5.325355, "Bryggen"); // [60.395102, 5.325355, "Bryggen"]/* BRYGGEN */, 
+	drawCircle(60.396247, 5.328263, "Fløyen"); // [60.396247, 5.328263, "Fløyen"]/* FLØYEN */, 
+	drawCircle(60.395198, 5.326338, "Dyvekegangen"); // [60.395198, 5.326338, "Dyvekegangen"]/*DYVEKEGANGEN*/, 
+	drawCircle(60.392495, 5.321006, "Gestapohuset"); // [60.392495, 5.321006, "Gestapohuset"]/*GESTAPOHUSET*/, 
+	drawCircle(60.399500, 5.318632, "Bergenhus Festning"); // [60.399500, 5.318632, "Bergenhus Festning"]/*BERGENHUS FESTNING*/ 
+	drawCircle(60.392355, 5.326586, "Gamle Brannstasjon"); // [60.392355, 5.326586, "Gamle Brannstasjon"]/*GAMLE BRANNSTASJON*/
 	
 	// Ta bort pin om den finnes
 	if (typeof(marker) != "undefined") marker.setMap(null);
@@ -176,10 +222,10 @@ function displayPosition(position) {
 	areweclose(position.coords.latitude, position.coords.longitude); 
 }
 
-function drawCircle(lat,lon) {
+function drawCircle(lat,lon,desc) {
 	var cPoint = new google.maps.LatLng(lat,lon);
-	
-	var circle = new google.maps.Circle({
+	descWindow = new google.maps.InfoWindow({ content: desc });
+	circle = new google.maps.Circle({
 		center: cPoint,
 		radius: 30,
 		strokeColor: "#FF6600",
@@ -189,28 +235,21 @@ function drawCircle(lat,lon) {
 		fillOpacity: 0.6
 	});
 	
-	circle.setMap(map);
+	circle.setMap(map);	
 }
 
-<!----------------------------------------------------------------------
-        
-$( "a.startaudio" ).click(function() {
-	var audiofile1 = $("#audiofile1").get(0);
-	//hack for å starte lyden automatisk senere
-	audiofile1.currentTime = 1;
-	audiofile1.play();
-	audiofile1.currentTime = 0;
-	audiofile1.pause();
-	$("a.startaudio").text("Takk!");        
-}); 
+<!---------------------------------------------------------------------->
         
 function areweclose(youLat, youLong){
 	var distancetext = "";
+	var destLat;
+	var destLong;
+	var distanceFrom;
 	
 	// Case 1
-	var destLat=59.9131091; 
-	var destLong=10.7363442;
-    var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
+	destLat=59.9131091; 
+	destLong=10.7363442;
+    distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
 	
 	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 1,";  
 	$("#distance").text("Meter unna: "+distanceFrom);
@@ -222,9 +261,9 @@ function areweclose(youLat, youLong){
 	}   
 
 	// Case 2
-	var destLat=59.5131091; 
-	var destLong=10.1363442;         
-	var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
+	destLat=59.5131091; 
+	destLong=10.1363442;         
+	distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
 
 	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 2,";                      
 	$("#distance").text("Meter unna: "+distanceFrom);
@@ -236,9 +275,9 @@ function areweclose(youLat, youLong){
 	}   
 
 	// Case 3
-	var destLat=59.7131091; 
-	var destLong=10.2363442;
-	var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);         
+	destLat=59.7131091; 
+	destLong=10.2363442;
+	distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);         
 
 	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 3";   
 	$("#distance").text("Meter unna: "+distanceFrom);        
@@ -253,20 +292,50 @@ function areweclose(youLat, youLong){
 	$("#distance").text(distancetext);
 }
 
+//Funksjoner for mediaspilleren under her.
+
+//Er denne funksjonen virkelig nødvendig? Virker litt unødvendig å forberede klipp på den måten.
+/*
+$( "a.startaudio" ).click(function() {
+	audioFile = $("#audiofile").get(0);
+	//hack for å starte lyden automatisk senere
+	audioFile.currentTime = 1;
+	audioFile.play();
+	audioFile.currentTime = 0;
+	audioFile.pause();
+	$("a.startaudio").text("Takk!");        
+});
+*/
+
+//Testfunksjon for lyd
+$(".controls").click(function() {
+	playaudiofile();
+});
+
+//Handlerfunksjon for innlasting av audio_page
+function audioLoad(number) {
+	tracker.slider({
+		range: 'min',
+		min: 0, max: 10,
+		start: function(event,ui) {},
+		stop: function(event,ui) {}
+	});
+}
+
 function playaudiofile(){
 	// finn lydfilen    
-	var audiofile1 = $("#audiofile1").get(0);
+	audioFile = $("#audiofile").get(0);
 	
 	// spill den av
-	audiofile1.currentTime = 1;
-	audiofile1.play();               
+	audioFile.currentTime = 0;
+	audioFile.play();               
 
 	// stopp å se etter lokasjon for å spare strøm
 	window.navigator.geolocation.clearWatch(watchId);
 
 	// Sjekk om lydfilen er ferdig
-	audiofile1.addEventListener('ended', function()	{
-		audiofile1.currentTime = 1;
+	audioFile.addEventListener('ended', function()	{
+		audioFile.currentTime = 1;
     	$("#info").text("Lyden er ferdig. nå burde du slå på igjen geolokasjon.");
 		$(".startgps").show();
 	});
@@ -274,12 +343,12 @@ function playaudiofile(){
         
 function pauseaudiofile(){
 	// finn lydfilen    
-	var audiofile1 = $("#audiofile1").get(0);
+	var audioFile = $("#audiofile").get(0);
 	
-	if (audiofile1.paused) {
-		audiofile1.play();
+	if (audioFile.paused) {
+		audioFile.play();
 	} else {
-		audiofile1.pause();
+		audioFile.pause();
 	}
 }
         
