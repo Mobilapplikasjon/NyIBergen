@@ -1,340 +1,332 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-          <link rel="stylesheet" type="text/css" href="lib/jquery/jquery.mobile-1.4.2.css" />
-        <link rel="stylesheet" href="css/themes/my-color-theme.css" />
-        <link rel="stylesheet" type="text/css" href="lib/jquery/jquery.mobile.icons.min.css" />
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+<link rel="stylesheet" type="text/css" href="lib/jquery/jquery.mobile-1.4.2.css" />
+<link rel="stylesheet" href="css/themes/my-color-theme.css" />
+<link rel="stylesheet" type="text/css" href="lib/jquery/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
         
-        <script type="text/javascript" src="lib/jquery-1.11.0.js"> </script>
-        
-       
-        
-        <script type="text/javascript" src="lib/jquery/jquery.mobile-1.4.2.js"> </script>
-        
-        
-        <!--script type="text/javascript" src="lib/exercisetracker.js"> </script-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+<script type="text/javascript" src="lib/jquery-1.11.0.js"> </script>
+<script type="text/javascript" src="lib/jquery/jquery.mobile-1.4.2.js"> </script>
+<!--script type="text/javascript" src="lib/exercisetracker.js"> </script-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCoVfGbPmNcip63Y-h_jySuHpHGCTZXG3I"></script>
 
-    <style>
-        #map { width:100%; height:200px; }
-        #audiofile{
-            display: none;
-        }
-        </style>
+<style>
+	.frontimg, .mainimg {
+		width: 350px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.frontimg {
+		padding-top: 50px;
+	}
+	#audiofile{
+		display: none;
+	}	
+	#googleMap {
+		width: 600px;
+		height: 800px;
+		margin: 20px auto;
+	}
+</style>
 
-        <title>Ny I Bergen?</title>
-
-
-  
-
-
-
-
+<title>Ny I Bergen?</title>
 </head>
+
 <body>
-
-
-
-
-    <div data-role="page"  id="home_page"  data-theme="b">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        
-        
-
-    <p style="text-align:center"> <a href="#main_page"> <img src="images/icons-png/location5.png"> </a> </p>
-
-   </div>
-   <div data-role="page"  id="main_page"  data-theme="b">
-<p style="text-align:center"><img src="images/icons-png/header.png " height="78" width="400" class="me"> </p>
-    <div data-role="navbar">
-
-        
-      <ul>
-        <li style="color:black"> <a href="#hjem" data-transition="none" data-icon="home">Start</a></li>
-        <li><a href="#lokalt" data-transition="none" data-icon="location">Hvordan?</a></li>
-        <li><a href="#tutorials" data-transition="none" data-icon="gear">Innstillinger</a></li>
-      </ul>
+<div data-role="page"  id="home_page"  data-theme="b">
     
-   
+    <div class="frontimg"> 
+    	<a href="#main_page"><img src="images/icons-png/location5.png"></a> 
+	</div>
+</div>
+
+<div data-role="page"  id="main_page"  data-theme="b">
+	<p style="text-align:center"><img src="images/icons-png/header.png " height="78" width="400" class="me"> </p>
+	
+    <div data-role="navbar">   
+		<ul>
+			<li style="color:black"> <a href="#hjem" data-transition="none" data-icon="home">Start</a></li>
+			<li><a href="#lokalt" data-transition="none" data-icon="location">Hvordan?</a></li>
+			<li><a href="#tutorials" data-transition="none" data-icon="gear">Innstillinger</a></li>
+		</ul>
+	</div>
+
+    <div class="mainimg">
+    	<a href="#map_page"> <img src="images/icons-png/location2.png"> </a>
     </div>
+</div>
 
-    <p style="text-align:center"> <a href="#map_page"> <img src="images/icons-png/location2.png"> </a> </p> <!-- Ørjan. Her ser vi bildet som skal lenke til funksjonaliteten og karten til siden. Denne fungerer ikke, se neste kommentar på hva som må gjøres der -->
-
-   
-   <div data-role="page"  id="map_page"  data-theme="b"> <!-- Ørjan, her ser du definisjonen av siden som bildet lenker til. Denne siden fungerer visst ikke å lenke til, og INNHOLDET i denne siden, skal derfor implementeres til en show/hide-funksjon som JQuery har. Det vil si at når man trykker på bildet, skal bildet bli 'hidet', og informasjonen på denne siden skal 'showes' -->
-    <div id="map"></div>
-    <div id="info"></div>
-    <div id="distance"></div>
+<div data-role="page"  id="map_page"  data-theme="b">
+	<div id="googleMap"></div>
+	<div id="info"></div>
+	<div id="distance"></div>
+        
+	<audio id="audiofile1">
+		<source src="mp3.mp3" type="audio/mp3">
+		<source src="ogg.ogg" type="audio/ogg">
+		<!--Your browser does not support the audio element.-->
+	</audio>
     
-    <audio id="audiofile1">
-      <source src="mp3.mp3" type="audio/mp3">
-      <source src="ogg.ogg" type="audio/ogg">
-    Your browser does not support the audio element.
-    </audio>
-    
-    <a href="#" class="startgps">Start geolocation og se etter posisjon</a>
+   	<a href="#" class="startgps">Start geolocation og se etter posisjon</a>
     <a href="#" class="startaudio">Trykk her for å gjøre det mulig å starte lyd senere automatisk</a>
+</div>
     
-    <script>
-    
-    
-    
-        var marker;
-        var infoWindow;
-        var watchId;
-        
-        
-        $( "a.startaudio" ).click(function() {
-            var audiofile1 = $("#audiofile1").get(0);
-            //hack for å starte lyden automatisk senere
-            audiofile1.currentTime = 1;
-            audiofile1.play();
-            audiofile1.currentTime = 0;
-            audiofile1.pause();
-            $("a.startaudio").text("Takk!");
-            
-        }); 
-        
-        // Er vi klar?
-        $(document).ready(function() {
-        
-        // was: $( "a.startgps" ).click(function() {
-        
-            //hack for å starte lyden automatisk senere
-            //audiofile1.currentTime = 1;
-            //audiofile1.play();
-            //audiofile1.currentTime = 0;
-            //audiofile1.pause();
-        
-        
-            $(".startgps").hide();
-            $("#info").text("Et øyeblikk, laster posisjon.");
-            // sjekk om det finnes mulighet for geolokasjon i nettleseren
-            if (navigator.geolocation) {
-                var timeoutVal = 10 * 1000 * 1000;
-                //watchId kan brukes med clearWatch til å stoppe å lytte etter posisjoner. feks til etter lyden er ferdig avspilt. window.navigator.geolocation.clearWatch(watchId);
-                watchId = navigator.geolocation.watchPosition(
-                    displayPosition, 
-                    displayError,
-                    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-                );
-            }
-            else {
-                // bør håndteres bedre, men enn så lenge:
-                alert("Geolokasjon ikke støttet");
-            }
-        }); 
-        
-        function displayPosition(position) {            
-            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            var options = {
-                zoom: 10,
-                center: pos,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map(document.getElementById("map"), options);
-            
-            
-            // Ta bort pin om den finnes
-            if (typeof(marker) != "undefined") marker.setMap(null);
-            marker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "User location"
-            });
-            
-            // lag innhold til pin
-            
-            var contentString = "<b>Timestamp:</b> " + parseTimestamp(position.timestamp) + "<br/><b>Lokasjon:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", Nøyaktighet " + position.coords.accuracy;
-            
-            
-            // lukk infovindu på kartet om det finnes.
-            if (typeof(infoWindow) != "undefined") infoWindow.setMap(null);
-            
-            // lage nytt vindu
-            infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-            
-            // Legg til marker med vindu som kan åpnes.         
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map,marker);
-            });
-            
-            //Skriver ut under kartet
-            $("#info").html(contentString);
-            
-            //Kjører funksjonen som sjekker om vi er i nærheten av noe
-            areweclose(position.coords.latitude, position.coords.longitude);
-            
-                        
-        }
-        
-        function areweclose(youLat, youLong){
-        
-        var distancetext = "";
-        
-        // Case 1
-        
-             var destLat=59.9131091; 
-             var destLong=10.7363442;
-             
-             var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
-                        
-             distancetext = distancetext + " " + distanceFrom + " meter fra punkt 1,";  
-                        
-            $("#distance").text("Meter unna: "+distanceFrom);
-            
-            
-            if(distanceFrom <= 5){
-                
-                //Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)
-                
-                $("#info").html("<p>Du er i nærheten av punkt 1. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
-                playaudiofile();
-                
-                }   
+<script>    
+<!----------------------------------------------------------------------
 
-        // Case 2
-        
-             var destLat=59.5131091; 
-             var destLong=10.1363442;
-             
-             var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
-             
-             distancetext = distancetext + " " + distanceFrom + " meter fra punkt 2,";  
-                        
-            $("#distance").text("Meter unna: "+distanceFrom);
-            
-            
-            if(distanceFrom <= 5){
-                
-                //Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)
-                
-                $("#info").html("<p>Du er i nærheten av punkt 2. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
-                playaudiofile();
-                
-                }   
+var marker;
+var infoWindow;
+var watchId;
+var position;
 
-        // Case 3
-        
-             var destLat=59.7131091; 
-             var destLong=10.2363442;
-             
-             var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
-             
-             distancetext = distancetext + " " + distanceFrom + " meter fra punkt 3";   
-                        
-            $("#distance").text("Meter unna: "+distanceFrom);
-            
-            
-            if(distanceFrom <= 5){
-                
-                //Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)
-                
-                $("#info").html("<p>Du er i nærheten av punkt 3. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
-                playaudiofile();
-                
-                }   
+var map;
+var walker;
 
-                
-        // End cases
+// Er vi klar?
+$(document).ready(function() {
         
-            $("#distance").text(distancetext);
-        
-        }
-        
-        function playaudiofile(){
-            // finn lydfilen    
-                var audiofile1 = $("#audiofile1").get(0);
-                // spill den av
-                audiofile1.currentTime = 1;
-                audiofile1.play();
-                
-                // stopp å se etter lokasjon for å spare strøm
-                window.navigator.geolocation.clearWatch(watchId);
-                
-                // Sjekk om lydfilen er ferdig
-                audiofile1.addEventListener('ended', function()
-                    {
-                        audiofile1.currentTime = 1;
-                        $("#info").text("Lyden er ferdig. nå burde du slå på igjen geolokasjon.");
-                        $(".startgps").show();
-                    });
+	$(".startgps").hide();
+	$("#info").text("Et øyeblikk, laster posisjon.");
+    // sjekk om det finnes mulighet for geolokasjon i nettleseren
+    if (navigator.geolocation) {
+    	var timeoutVal = 10 * 1000 * 1000;
+		//watchId kan brukes med clearWatch til å stoppe å lytte etter posisjoner. feks til etter lyden er ferdig avspilt. window.navigator.geolocation.clearWatch(watchId);
+		watchId = navigator.geolocation.watchPosition(
+			displayPosition, 
+			displayError,
+			{ enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+		);
+	}
+    else {
+    	// bør håndteres bedre, men enn så lenge:
+        alert("Geolokasjon ikke støttet");
+    }
+}); 
+	
+//Initialiser kartet
+function displayPosition(position) {
+	//TypeError: position.coords is undefined - hvorfor registrerer den ikke informasjonen riktig?
+	var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	var mapProp = {
+		center: pos,
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	}; 
+	map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	
+	walker = new google.maps.Marker({
+		position: pos,
+	}),
+	walker.setMap(map);
+	
+	drawCircle(60.392505, 5.319710);
+	drawCircle(60.396879, 5.323422);
+	drawCircle(60.391405, 5.324840);
+	drawCircle(60.387694, 5.321300);
+	drawCircle(60.392264, 5.327501);
+	
+	//updateWalker();
+	
+	// Ta bort pin om den finnes
+	if (typeof(marker) != "undefined") marker.setMap(null);
+	marker = new google.maps.Marker({
+		position: pos,
+		map: map,
+		title: "User location"
+	});
             
-        }
-        
-        function pauseaudiofile(){
-            // finn lydfilen    
-                var audiofile1 = $("#audiofile1").get(0);
-                if (audiofile1.paused)
-                    {
-                    audiofile1.play();
-                    }else{
-                    audiofile1.pause();
-                    }
-                }
-        
-        /* obs: Autoplay Issue
-        
-        There’s no fix to this issue, not even on iOS 6. You have to wait for user interaction (touch, click, etc. events) in order to start playing audio. Maybe you can present some options on the game splash screen where the user can select (with a click or tap) whether to start playing audio or not. 
-        http://codetheory.in/fixing-html5-audio-problems-in-ios-and-android-mobile-browsers-to-overcome-the-limitations/ */
-        
-        
-        
-        // diverse nyttige funksjoner
-        
-        function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-          var R = 6371; // Radius of the earth in km
-          var dLat = deg2rad(lat2-lat1);  // deg2rad below
-          var dLon = deg2rad(lon2-lon1); 
-          var a = 
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2)
-            ; 
-          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-          var d = R * c; // Distance in km
-          d=d*1000;
-          return d;
-        }
-        
-        function deg2rad(deg) {
-          return deg * (Math.PI/180)
-        }
-        
-        
-        function displayError(error) {
-            var errors = { 
-                1: 'Permission denied',
-                2: 'Position unavailable',
-                3: 'Request timeout'
-            };
-            alert("Error: " + errors[error.code]);
-        }
-        
-        function parseTimestamp(timestamp) {
-            var d = new Date(timestamp);
-            var day = d.getDate();
-            var month = d.getMonth() + 1;
-            var year = d.getFullYear();
-            var hour = d.getHours();
-            var mins = d.getMinutes();
-            var secs = d.getSeconds();
-            var msec = d.getMilliseconds();
-            return day + "." + month + "." + year + " " + hour + ":" + mins + ":" + secs + "," + msec;
-        }
-    </script>
+	// lag innhold til pin        
+	var contentString = "<b>Timestamp:</b> " + parseTimestamp(position.timestamp) + "<br/><b>Lokasjon:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", Nøyaktighet " + position.coords.accuracy;
+            
+	// lukk infovindu på kartet om det finnes.
+	if (typeof(infoWindow) != "undefined") infoWindow.setMap(null);
 
+	// lage nytt vindu
+	infowindow = new google.maps.InfoWindow({
+		content: contentString
+	});
+            
+	 // Legg til marker med vindu som kan åpnes.         
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});
+            
+	//Skriver ut under kartet
+	$("#info").html(contentString);
+            
+	//Kjører funksjonen som sjekker om vi er i nærheten av noe
+	areweclose(position.coords.latitude, position.coords.longitude); 
+}
+
+function drawCircle(lat,lon) {
+	var cPoint = new google.maps.LatLng(lat,lon);
+	
+	var circle = new google.maps.Circle({
+		center: cPoint,
+		radius: 50,
+		strokeColor: "#FF6600",
+		strokeOpacity: 0.9,
+		strokeWeight: 0.5,
+		fillColor: "#FFCC00",
+		fillOpacity: 0.6
+	});
+	
+	circle.setMap(map);
+}
+
+function updateWalker(position) {
+	var wPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	walker.setPosition(wPos);
+}
+
+//Vent med å laste til siden faktisk vises
+//Må kanskje vurdere alternativer, hvis 'mouseover' er upålitelig en touchscreen
+google.maps.event.addDomListenerOnce($("#map_page")[0], 'mouseover', displayPosition);
+
+<!----------------------------------------------------------------------
+        
+$( "a.startaudio" ).click(function() {
+	var audiofile1 = $("#audiofile1").get(0);
+	//hack for å starte lyden automatisk senere
+	audiofile1.currentTime = 1;
+	audiofile1.play();
+	audiofile1.currentTime = 0;
+	audiofile1.pause();
+	$("a.startaudio").text("Takk!");        
+}); 
+        
+function areweclose(youLat, youLong){
+	var distancetext = "";
+	
+	// Case 1
+	var destLat=59.9131091; 
+	var destLong=10.7363442;
+    var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
+	
+	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 1,";  
+	$("#distance").text("Meter unna: "+distanceFrom);
+	
+	if(distanceFrom <= 5){
+		//Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)
+		$("#info").html("<p>Du er i nærheten av punkt 1. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
+		playaudiofile();
+	}   
+
+	// Case 2
+	var destLat=59.5131091; 
+	var destLong=10.1363442;         
+	var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);
+
+	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 2,";                      
+	$("#distance").text("Meter unna: "+distanceFrom);
+            
+	if(distanceFrom <= 5){
+		//Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)        
+		$("#info").html("<p>Du er i nærheten av punkt 2. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
+		playaudiofile();        
+	}   
+
+	// Case 3
+	var destLat=59.7131091; 
+	var destLong=10.2363442;
+	var distanceFrom = getDistanceFromLatLonInKm(youLat, youLong, destLat,destLong);         
+
+	distancetext = distancetext + " " + distanceFrom + " meter fra punkt 3";   
+	$("#distance").text("Meter unna: "+distanceFrom);        
+
+	if(distanceFrom <= 5){                
+		//Gjør noe om du er nærmere enn 5 meter. (Bør være høyere)
+		$("#info").html("<p>Du er i nærheten av punkt 3. Spiller av lyd.</p><p><a href='#' onclick='pauseaudiofile();'>[pause/play] lyden.</a>");
+		playaudiofile();
+	}   
+            
+	// End cases    
+	$("#distance").text(distancetext);
+}
+
+function playaudiofile(){
+	// finn lydfilen    
+	var audiofile1 = $("#audiofile1").get(0);
+	
+	// spill den av
+	audiofile1.currentTime = 1;
+	audiofile1.play();               
+
+	// stopp å se etter lokasjon for å spare strøm
+	window.navigator.geolocation.clearWatch(watchId);
+
+	// Sjekk om lydfilen er ferdig
+	audiofile1.addEventListener('ended', function()	{
+		audiofile1.currentTime = 1;
+    	$("#info").text("Lyden er ferdig. nå burde du slå på igjen geolokasjon.");
+		$(".startgps").show();
+	});
+}
+        
+function pauseaudiofile(){
+	// finn lydfilen    
+	var audiofile1 = $("#audiofile1").get(0);
+	
+	if (audiofile1.paused) {
+		audiofile1.play();
+	} else {
+		audiofile1.pause();
+	}
+}
+        
+/* obs: Autoplay Issue
+
+There’s no fix to this issue, not even on iOS 6. You have to wait for user interaction (touch, click, etc. events) in order to start playing audio. Maybe you can present some options on the game splash screen where the user can select (with a click or tap) whether to start playing audio or not. 
+http://codetheory.in/fixing-html5-audio-problems-in-ios-and-android-mobile-browsers-to-overcome-the-limitations/ */
+        
+// diverse nyttige funksjoner
+        
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+	var R = 6371; // Radius of the earth in km
+	var dLat = deg2rad(lat2-lat1);  // deg2rad below
+	var dLon = deg2rad(lon2-lon1); 
+	var a = 
+		Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+		Math.sin(dLon/2) * Math.sin(dLon/2)
+	; 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c; // Distance in km
+		d=d*1000;
+		return d;
+}
+        
+function deg2rad(deg) {
+	return deg * (Math.PI/180)
+}
+        
+function displayError(error) {
+	var errors = { 
+		1: 'Permission denied',
+		2: 'Position unavailable',
+		3: 'Request timeout'
+	};
+	alert("Error: " + errors[error.code]);
+}
+        
+function parseTimestamp(timestamp) {
+	var d = new Date(timestamp);
+	var day = d.getDate();
+	var month = d.getMonth() + 1;
+	var year = d.getFullYear();
+	var hour = d.getHours();
+	var mins = d.getMinutes();
+	var secs = d.getSeconds();
+	var msec = d.getMilliseconds();
+	return day + "." + month + "." + year + " " + hour + ":" + mins + ":" + secs + "," + msec;
+}
+</script>
 </body>
