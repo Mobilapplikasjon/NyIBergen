@@ -31,10 +31,20 @@
 		display: none;
 	}	
 	#googleMap {
-		width: 600px;
-		height: 800px;
+		width: 100%;
+		min-height: 90%;
 		margin: 20px auto;
 	}
+	.containerbox {
+		width: 100%;
+		min-height: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+	}
+}
 </style>
 
 <title>Ny I Bergen?</title>
@@ -65,18 +75,20 @@
 </div>
 
 <div data-role="page"  id="map_page"  data-theme="b">
-	<div id="googleMap"></div>
-	<div id="info"></div>
-	<div id="distance"></div>
+	<div class="containerbox">
+		<div id="googleMap"></div>
+		<div id="info"></div>
+		<div id="distance"></div>
         
-	<audio id="audiofile1">
-		<source src="mp3.mp3" type="audio/mp3">
-		<source src="ogg.ogg" type="audio/ogg">
-		<!--Your browser does not support the audio element.-->
-	</audio>
+		<audio id="audiofile1">
+			<source src="mp3.mp3" type="audio/mp3"> <!-- .get(0) -->
+			<source src="ogg.ogg" type="audio/ogg"> <!-- .get(1) -->
+			<!--Your browser does not support the audio element.-->
+		</audio>
     
-   	<a href="#" class="startgps">Start geolocation og se etter posisjon</a>
-    <a href="#" class="startaudio">Trykk her for å gjøre det mulig å starte lyd senere automatisk</a>
+	   	<a href="#" class="startgps">Start geolocation og se etter posisjon</a>
+    	<a href="#" class="startaudio">Trykk her for å gjøre det mulig å starte lyd senere automatisk</a>
+	</div>
 </div>
     
 <script>    
@@ -85,31 +97,30 @@
 var marker;
 var infoWindow;
 var watchId;
-var position;
 
 var map;
 var walker;
 
-// Er vi klar?
-$(document).ready(function() {
-        
+$(".mainimg").click(function() {
+	initCoords();
+});
+
+function initCoords() {
 	$(".startgps").hide();
 	$("#info").text("Et øyeblikk, laster posisjon.");
-    // sjekk om det finnes mulighet for geolokasjon i nettleseren
-    if (navigator.geolocation) {
-    	var timeoutVal = 10 * 1000 * 1000;
-		//watchId kan brukes med clearWatch til å stoppe å lytte etter posisjoner. feks til etter lyden er ferdig avspilt. window.navigator.geolocation.clearWatch(watchId);
-		watchId = navigator.geolocation.watchPosition(
-			displayPosition, 
-			displayError,
-			{ enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-		);
-	}
-    else {
-    	// bør håndteres bedre, men enn så lenge:
-        alert("Geolokasjon ikke støttet");
-    }
-}); 
+	
+	//Sjekk etter geolokasjon
+	if(navigator.geolocation) {
+		var timeOut = 10 * 1000 * 1000;
+		var geoLoc = navigator.geolocation;
+		var options = {enableHighAccuracy:true, timeout:timeOut, maximumAge:0};
+		watchId = geoLoc.watchPosition(displayPosition, //window.navigator.geolocation.clearWatch(watchId);
+									   displayError,
+									   options);
+	} else {
+		alert("Geolokasjon ikke støttet");
+	}	
+}; 
 	
 //Initialiser kartet
 function displayPosition(position) {
@@ -127,13 +138,12 @@ function displayPosition(position) {
 	}),
 	walker.setMap(map);
 	
-	drawCircle(60.392505, 5.319710);
-	drawCircle(60.396879, 5.323422);
-	drawCircle(60.391405, 5.324840);
-	drawCircle(60.387694, 5.321300);
-	drawCircle(60.392264, 5.327501);
-	
-	//updateWalker();
+	drawCircle(60.395102, 5.325355); // [60.395102, 5.325355, "Bryggen"]/* BRYGGEN */, 
+	drawCircle(60.396247, 5.328263); // [60.396247, 5.328263, "Fløyen"]/* FLØYEN */, 
+	drawCircle(60.395198, 5.326338); // [60.395198, 5.326338, "Dyvekegangen"]/*DYVEKEGANGEN*/, 
+	drawCircle(60.392495, 5.321006); // [60.392495, 5.321006, "Gestapohuset"]/*GESTAPOHUSET*/, 
+	drawCircle(60.399500, 5.318632); // [60.399500, 5.318632, "Bergenhus Festning"]/*BERGENHUS FESTNING*/ 
+	drawCircle(60.392355, 5.326586); // [60.392355, 5.326586, "Gamle Brannstasjon"]/*GAMLE BRANNSTASJON*/
 	
 	// Ta bort pin om den finnes
 	if (typeof(marker) != "undefined") marker.setMap(null);
@@ -171,7 +181,7 @@ function drawCircle(lat,lon) {
 	
 	var circle = new google.maps.Circle({
 		center: cPoint,
-		radius: 50,
+		radius: 30,
 		strokeColor: "#FF6600",
 		strokeOpacity: 0.9,
 		strokeWeight: 0.5,
@@ -181,15 +191,6 @@ function drawCircle(lat,lon) {
 	
 	circle.setMap(map);
 }
-
-function updateWalker(position) {
-	var wPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	walker.setPosition(wPos);
-}
-
-//Vent med å laste til siden faktisk vises
-//Må kanskje vurdere alternativer, hvis 'mouseover' er upålitelig en touchscreen
-google.maps.event.addDomListenerOnce($("#map_page")[0], 'mouseover', displayPosition);
 
 <!----------------------------------------------------------------------
         
